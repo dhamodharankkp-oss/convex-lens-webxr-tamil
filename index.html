@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#070a10">
+  <title>ஒளியியல் - குவி லென்சு ஒளிவிலகல் | TN 10th Physics WebXR & Camera AR</title>
+  <link rel="stylesheet" href="/src/styles.css">
+</head>
+<body>
+  <!-- Layer 1: Real-World Phone Camera Video Stream (Universal AR like D:\tecplore) -->
+  <video id="camera-video" playsinline autoplay muted></video>
+
+  <!-- Layer 2: 3D Transparent WebGL Canvas Layer -->
+  <div id="canvas-container"></div>
+
+  <!-- Layer 3: Interactive Glassmorphic DOM Overlay -->
+  <div id="ar-overlay">
+    <!-- Top Section -->
+    <div class="top-section interactive">
+      <!-- Top Header -->
+      <header class="top-header glass-panel">
+        <div class="title-section">
+          <div class="title-badge">
+            <span>🔭</span>
+            <h1>ஒளியியல் - குவி லென்சு</h1>
+          </div>
+          <div class="tamil-sub">TN 10-ஆம் வகுப்பு இயற்பியல்</div>
+        </div>
+
+        <!-- Camera Perspective Quick Switches (Desktop Only) -->
+        <div class="camera-controls">
+          <button id="cam-side" class="cam-btn active" title="பக்கப் பார்வை (Side View)">📷 பக்கப் பார்வை</button>
+          <button id="cam-iso" class="cam-btn" title="மூலைவிட்டப் பார்வை (Isometric View)">🧊 ஐசோமெட்ரிக்</button>
+          <button id="cam-top" class="cam-btn" title="மேல் பார்வை (Top View)">🔝 மேல் பார்வை</button>
+        </div>
+
+        <div class="top-actions">
+          <button id="btn-clean-lookout" class="lookout-btn" title="முழுமையான 3D காட்சி (Toggle Maximum Lookout / Clean View)">👁️ முழு காட்சி</button>
+          <button id="btn-toggle-mode" class="mode-pill-btn" title="காட்சி முறையை மாற்று (Toggle Real Lab / Ray Optics)">🕯️ ஆய்வகம்</button>
+          <span id="mode-badge" class="mode-tag">🌐 3D பார்வை</span>
+          <button id="btn-scale" class="btn-icon" title="அளவை மாற்று (Scale 100% / 75% / 50%)" style="font-size: 11px; font-weight: bold;">50%</button>
+          <button id="btn-fullscreen" class="btn-icon" title="முழுத்திரை / படுக்கை வசமாக்கு (Landscape Fullscreen)">⛶</button>
+          <button id="btn-settings" class="btn-icon" title="அமைப்புகள் (Settings)">⚙️</button>
+        </div>
+      </header>
+
+      <!-- Smart AR Launch Bar (Universal Live Camera AR + WebXR AR like D:\tecplore) -->
+      <div class="ar-launch-bar">
+        <button id="btn-launch-cam-ar" class="btn-cam-launch" title="Instant AR camera on ALL phones immediately">
+          <span>📷</span>
+          <span>நேரடி கேமரா AR (Instant Room AR)</span>
+        </button>
+        <button id="btn-launch-webxr" class="btn-webxr-launch" title="WebXR Floor Tracking">
+          <span>📱</span>
+          <span>WebXR AR</span>
+        </button>
+      </div>
+
+      <!-- Active Camera Controls Dock (Shown when Live Camera AR or WebXR is running) -->
+      <div class="camera-active-dock">
+        <button id="btn-exit-cam-ar" class="btn-cam-dock danger" title="வெளியேறு (Exit AR)">
+          <span>❌</span> <span>Exit</span>
+        </button>
+        <button id="btn-flip-cam" class="btn-cam-dock" title="கேமராவை மாற்று (Flip Front/Back)">
+          <span>🔄</span> <span>Flip</span>
+        </button>
+        <button id="btn-center-model" class="btn-cam-dock" title="என் முன் கொண்டு வா (Center Model)">
+          <span>🎯</span> <span>Center</span>
+        </button>
+        <button id="btn-lock-surface" class="btn-cam-dock" title="மேற்பரப்பில் பொருத்து (Lock to Surface)">
+          <span>📌</span> <span>Lock</span>
+        </button>
+        <button id="btn-snap-photo" class="btn-cam-dock" title="புகைப்படம் எடு (Snap AR Photo)">
+          <span>📸</span> <span>Photo</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Main HUD Area: Telemetry card docked in top-right, collapsible -->
+    <div class="main-hud-area">
+      <section id="telemetry-panel" class="telemetry-card glass-panel interactive">
+        <div id="telemetry-toggle" class="telemetry-header">
+          <div class="state-badge">
+            <span class="badge-dot"></span>
+            <span id="stat-state-title">பொருள் 2F-ல் (u = 2F)</span>
+          </div>
+          <div class="telemetry-header-right">
+            <span id="stat-nature" class="nature-tag nature-real">மெய் & தலைகீழ்</span>
+            <span class="collapse-icon">▼</span>
+          </div>
+        </div>
+
+        <div class="telemetry-grid">
+          <div class="telemetry-item">
+            <div class="telemetry-label">பொருள் (u)</div>
+            <div class="telemetry-value"><span id="stat-u">20.0</span> <span class="telemetry-unit">cm</span></div>
+          </div>
+          <div class="telemetry-item">
+            <div class="telemetry-label">பிம்பம் (v)</div>
+            <div class="telemetry-value"><span id="stat-v">20.0</span> <span class="telemetry-unit">cm</span></div>
+          </div>
+          <div class="telemetry-item">
+            <div class="telemetry-label">திரை (Screen)</div>
+            <div class="telemetry-value"><span id="stat-screen">20.0</span> <span class="telemetry-unit">cm</span></div>
+          </div>
+          <div class="telemetry-item">
+            <div class="telemetry-label">உருப்பெருக்கம்</div>
+            <div class="telemetry-value"><span id="stat-m">-1.00</span><span class="telemetry-unit">x</span></div>
+          </div>
+        </div>
+
+        <div class="telemetry-footer">
+          <div>பயன்பாடு: <span id="stat-application" class="app-highlight">நில அளவையாளர் கருவி</span></div>
+          <div id="stat-focus" class="focus-highlight">🎯 துல்லியமான குவியம்</div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Bottom Section: Sleek Streamlined Floating Console -->
+    <div class="bottom-section interactive">
+      <!-- Lightweight Floating Voice Subtitle Chip (Appears only when explaining) -->
+      <div id="explanation-body" class="floating-subtitle-chip glass-panel" style="display: none;">
+        <div class="subtitle-chip-content">
+          <span class="sub-icon">💡</span>
+          <div class="sub-texts">
+            <div id="subtitle-ta">பொருள் 2F-ல் உள்ளது. பிம்பமும் 2F-ல் அதே அளவில், தலைகீழான மெய் பிம்பமாக உருவாகிறது.</div>
+            <div id="subtitle-en" class="subtitle-en" style="display: none;">Object at 2F: Real and inverted image formed at 2F with same size.</div>
+          </div>
+        </div>
+        <div class="sub-actions">
+          <button id="btn-toggle-lang" class="sub-action-btn" title="English / தமிழ்">🌐</button>
+          <button id="btn-toggle-explain" class="sub-action-btn" title="மூடு (Close)">✕</button>
+        </div>
+      </div>
+
+      <!-- Unified Floating Laboratory Console -->
+      <footer id="lab-console" class="lab-console glass-panel">
+        <!-- Console Top Bar: Presets + Quick Actions + Minimize Chevron -->
+        <div class="console-header">
+          <div class="preset-pills">
+            <button class="preset-pill" data-u="30.0">&gt; 2F</button>
+            <button class="preset-pill active" data-u="20.0">2F</button>
+            <button class="preset-pill" data-u="15.0">F-2F</button>
+            <button class="preset-pill" data-u="10.0">F</button>
+            <button class="preset-pill" data-u="6.0">&lt; F</button>
+          </div>
+
+          <div class="console-actions">
+            <button id="btn-autofocus" class="btn-console-pill active" title="திரையை தானாக குவியத்தில் வை (Auto-Focus)">🎯 Auto</button>
+            <button id="btn-explain" class="btn-console-pill ai-pill" title="விளக்கம் கூறு (Explain)">
+              <span id="explain-btn-text">🔊 விளக்கம்</span>
+            </button>
+            <button id="btn-collapse-bottom" class="btn-console-pill toggle-pill" title="கட்டுப்பாடுகளை சுருக்கு / விரி (Minimize / Expand Controls)">
+              <span class="collapse-chevron">▼</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Collapsible Slider Drawer -->
+        <div id="console-slider-drawer" class="console-drawer">
+          <div class="slider-row">
+            <span class="slider-label">🕯️ பொருள் (u):</span>
+            <input type="range" id="u-slider" class="custom-range" min="3.0" max="40.0" step="0.5" value="20.0">
+            <div class="slider-value-display"><span id="slider-val">20.0</span> cm</div>
+          </div>
+
+          <div class="slider-row screen-slider-row">
+            <span class="slider-label">📽️ திரை (Screen):</span>
+            <input type="range" id="screen-slider" class="custom-range range-screen" min="5.0" max="42.0" step="0.5" value="20.0">
+            <div class="slider-value-display"><span id="screen-slider-val">20.0</span> cm</div>
+            <span id="badge-screen-focus" class="screen-focus-tag tag-focused">🎯 குவியம்</span>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <!-- Floating Restore Pill (Only visible in Clean Lookout Mode) -->
+  <button id="btn-restore-ui" class="floating-restore-pill interactive" title="கட்டுப்பாடுகளை மீண்டும் காட்டு (Show Controls)" style="display: none;">
+    <span>🎛️ கட்டுப்பாடுகளைக் காட்டு</span>
+  </button>
+
+  <!-- Settings Modal -->
+  <div id="settings-modal" class="modal-backdrop">
+    <div class="modal-content glass-panel">
+      <div class="modal-header">
+        <h2>⚙️ அமைப்புகள் (Settings)</h2>
+        <button id="btn-close-settings" class="modal-close-btn">&times;</button>
+      </div>
+
+      <div class="input-group">
+        <label for="gemini-key-input">Gemini Flash API Key (விருப்பத்தேர்வு / Optional AI):</label>
+        <input type="password" id="gemini-key-input" placeholder="AIzaSy...">
+        <small style="color: #94a3b8; font-size: 11px;">API விசை இல்லாவிட்டாலும் தமிழ்நாடு பாடநூல் குறிப்புகள் (Offline Presets) இயங்கும்.</small>
+      </div>
+
+      <div class="modal-footer">
+        <button id="btn-clear-key" class="btn-secondary">அழி (Clear)</button>
+        <button id="btn-save-settings" class="btn-accent">சேமி (Save)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Landscape Orientation Guidance Overlay for Mobile & Tablet -->
+  <div id="orientation-prompt" class="orientation-modal">
+    <div class="orientation-box glass-panel">
+      <div class="phone-rotate-icon">
+        <div class="device-phone"></div>
+        <div class="rotate-badge">↻</div>
+      </div>
+      <h3>திரையை படுக்கை வசமாக (Landscape) திருப்பவும்</h3>
+      <p class="orientation-desc">
+        86cm ஒளியியல் ஆய்வக மேசை (Optical Bench) மற்றும் வெள்ளை திரையில் விழும் பிம்பத்தை முழுமையாகக் காண மொபைல் / டேப்லெட்டை <strong>Landscape</strong>-ல் திருப்பவும்.
+      </p>
+      <div class="orientation-actions">
+        <button id="btn-force-landscape" class="btn-landscape-primary">
+          <span>⛶</span> <span>முழுத்திரை Landscape</span>
+        </button>
+        <button id="btn-dismiss-orientation" class="btn-landscape-secondary">
+          தொடர்க (Portrait)
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main JavaScript App Entry Point -->
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
