@@ -4,9 +4,10 @@
 
 A photorealistic WebXR and Live Camera Augmented Reality (AR) optical bench simulation demonstrating refraction, real image formation, and shadow projection through a convex lens.
 
-![Demo](https://img.shields.io/badge/WebXR-Immersive%20AR-0284c7)
-![Three.js](https://img.shields.io/badge/Three.js-r170-10b981)
-![Language](https://img.shields.io/badge/Language-Tamil%20%7C%20English-f59e0b)
+[![Live Web App](https://img.shields.io/badge/🚀%20Live%20Demo-GitHub%20Pages-success?style=for-the-badge)](https://dhamodharankkp-oss.github.io/convex-lens-webxr-tamil/)
+[![Cloudflare Tunnel](https://img.shields.io/badge/⚡%20Alternative%20Tunnel-Cloudflare-f38020?style=for-the-badge)](https://hiv-locks-duty-bodies.trycloudflare.com)
+
+👉 **நேரடியாக இயக்க:** [https://dhamodharankkp-oss.github.io/convex-lens-webxr-tamil/](https://dhamodharankkp-oss.github.io/convex-lens-webxr-tamil/)
 
 ---
 
